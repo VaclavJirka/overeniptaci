@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ověření odpovědi</title>
+    <link rel="icon" href="favicon.ico" />
+    <script
+      crossorigin
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+    ></script>
+    <script
+      crossorigin
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+    ></script>
+    <script
+      src="https://unpkg.com/@babel/standalone@7.10.3/babel.min.js"
+      crossorigin
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="react,stage-3">
+      function Content() {
+        let audio = new Audio("albatros.mp3");
+        const [answer, setAnswer] = React.useState("");
+        const [wrong, setWrong] = React.useState(false);
+        const [answered, setAnswered] = React.useState(false);
+        const handleAnswer = (event) => {
+          setAnswer(event.target.value);
+        };
+        const handleAnswerButton = () => {
+          if (answer === "ALBATROSSTĚHOVAVÝ7") {
+            setAnswered(true);
+            setWrong(false);
+            audio.play();
+          } else {
+            setWrong(true);
+          }
+        };
+        return (
+          <div className="wrap-content">
+            {answered ? (
+              <div className="content" id="answered">
+                <h1 id="correct">Správně!</h1>
+                <h2>Albatros stěhovavý</h2>
+                <img id="albatros" src="albatros.png" alt="albatros" />
+                <ul className="facts-list">
+                  <li className="facts-item">Rozpětí křídel až 3,6m</li>
+                  <li className="facts-item">Žije na jižní polokouli</li>
+                  <li className="facts-item">Uletí až 183 000km ročně</li>
+                  <li className="facts-item">Živí se rybami a hlavonožci</li>
+                  <li className="facts-item">Mořský pták</li>
+                  <li className="facts-item">
+                    Více na{" "}
+                    <a href="https://cs.wikipedia.org/wiki/Albatros_st%C4%9Bhovav%C3%BD">
+                      Wikipedii
+                    </a>
+                  </li>
+                </ul>
+                <h4 className="footer">Václav Jirka 2024</h4>
+              </div>
+            ) : (
+              <div className="content" id="not-answered">
+                <h1>Ověř svou odpověď!</h1>
+                <img id="birdimage" src="bird.png" alt="bird" />
+                <h2>Zadej níže svou odpověď a zjisti, zda je správná</h2>
+                <h3>Pro úplný zážitek měj zapnutý zvuk &#x1F50A;</h3>
+                <div className="form">
+                  {wrong && (
+                    <h3 className="wrong-header">Špatně, zkus to znovu</h3>
+                  )}
+                  <input
+                    type="text"
+                    placeholder="Odpověď..."
+                    value={answer}
+                    onChange={handleAnswer}
+                    className={wrong ? "input-wrong" : "input-standard"}
+                  />
+                  <button onClick={handleAnswerButton}>Ověřit</button>
+                </div>
+                <h4 className="footer">Václav Jirka 2024</h4>
+              </div>
+            )}
+          </div>
+        );
+      }
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<Content />);
+    </script>
+  </body>
+</html>
